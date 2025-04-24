@@ -1,15 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { buildStyles } from "react-circular-progressbar";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
 import * as Progress from "@radix-ui/react-progress";
 import { useRouter } from "next/navigation";
 
 const ResultsPage = () => {
   const router = useRouter();
-  const [percentage, setPercentage] = useState(0);
   const [presentKeywords, setPresentKeywords] = useState([]);
   const [missingKeywords, setMissingKeywords] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -33,7 +29,6 @@ const ResultsPage = () => {
         const results = JSON.parse(storedResults);
 
         // Set data from stored results
-        setPercentage(results.score || 0);
         setPresentKeywords(results.analysis?.presentKeywords || []);
         setMissingKeywords(results.analysis?.missingKeywords || []);
         setSuggestions(results.recommendations || []);
@@ -49,6 +44,8 @@ const ResultsPage = () => {
             return prevProgress + 1;
           });
         }, 20);
+
+        return () => clearInterval(timer);
       } catch (error) {
         setApiError(error.message);
       } finally {
@@ -57,10 +54,6 @@ const ResultsPage = () => {
     };
 
     loadResults();
-
-    return () => {
-      clearInterval(timer);
-    };
   }, [router]);
 
   const handleDownload = () => {
