@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
-import { ContactForm } from "schema/contact";
+import { contactSchema as ContactForm } from "@/schema/contact";
 
 export async function POST(request) {
   const formData = await request.formData();

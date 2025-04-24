@@ -1,13 +1,11 @@
 // app/api/helpers/atsScorer.js
-import natural from "natural";
+import { WordTokenizer, TfIdf } from "natural";
 import nlp from "compromise";
 import _ from "lodash";
-import stopword from "stopword";
+import { removeStopwords } from "stopword";
 
 // Initialize NLP tools
-const { WordTokenizer } = natural;
 const tokenizer = new WordTokenizer();
-const { TfIdf } = natural;
 
 export function calculateAtsAnalysis(resumeText, jobDescription) {
   try {
@@ -69,7 +67,7 @@ function cleanAndTokenize(text) {
 
   // Tokenize and remove stopwords
   let tokens = tokenizer.tokenize(importantTerms) || [];
-  tokens = stopword.removeStopwords(tokens);
+  tokens = removeStopwords(tokens);
 
   // Remove single characters and numbers
   return tokens.filter((token) => token.length > 2 && !/\d/.test(token));

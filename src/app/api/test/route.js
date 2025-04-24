@@ -1,4 +1,4 @@
-export async function GET(req) {
+export async function GET() {
   const apiKey = process.env.OPENAI_API_KEY;
 
   return new Response(
@@ -8,6 +8,6 @@ export async function GET(req) {
     {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    },
+    }
   );
 }

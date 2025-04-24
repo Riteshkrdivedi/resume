@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "axios";
 
 // import Navbar from "@/components/navbar";
 // import Footer from "@/components/footer";
@@ -53,47 +52,101 @@ const Page = () => {
       return;
     }
 
+    if (!formData.jobFitStatement) {
+      setSubmitError("Please provide a job description");
+      return;
+    }
+
     try {
       setIsLoading(true);
 
+      // First, upload the file
       const uploadFormData = new FormData();
       uploadFormData.append("file", formData.selectedFile);
 
+      console.log("Uploading file:", formData.selectedFile.name);
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
         body: uploadFormData,
       });
 
+      const uploadResult = await uploadResponse.json();
+      console.log("Upload response:", uploadResult);
+
       if (!uploadResponse.ok) {
-        const errorData = await uploadResponse.json().catch(() => ({}));
-        throw new Error(errorData.error || "File upload failed");
+        throw new Error(uploadResult.error || "File upload failed");
       }
 
-      const uploadResult = await uploadResponse.json();
+      if (!uploadResult.success) {
+        throw new Error("File upload was not successful");
+      }
 
-      setTimeout(() => {
-        sessionStorage.setItem(
-          "uploadResult",
-          JSON.stringify({
-            ...uploadResult,
-            userData: {
-              name: formData.fullName,
-              email: formData.emailAddress,
-            },
-          })
-        );
+      if (!uploadResult.text) {
+        throw new Error("No text could be extracted from the PDF");
+      }
 
-        window.location.href = "/processing";
-      }, 2000);
+      // Then, analyze the resume
+      const analyzeData = {
+        resume_text: uploadResult.text,
+        job_description: formData.jobFitStatement,
+      };
+      console.log("Sending analyze request with data:", {
+        resume_text_length: analyzeData.resume_text.length,
+        job_description_length: analyzeData.job_description.length,
+      });
+
+      const analyzeResponse = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(analyzeData),
+      });
+
+      const analysisResult = await analyzeResponse.json();
+      console.log("Analysis response:", analysisResult);
+
+      if (!analyzeResponse.ok) {
+        throw new Error(analysisResult.error || "Analysis failed");
+      }
+
+      // Store both results
+      sessionStorage.setItem(
+        "uploadResult",
+        JSON.stringify({
+          ...uploadResult,
+          analysis: analysisResult,
+          userData: {
+            name: formData.fullName,
+            email: formData.emailAddress,
+          },
+        })
+      );
+
+      window.location.href = "/processing";
     } catch (error) {
-      console.error("Upload error:", error);
-      setSubmitError(error.message || "Upload failed");
+      console.error("Error:", error);
+      setSubmitError(error.message || "An error occurred");
       setIsLoading(false);
     }
   };
 
   return (
     <div>
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-md">
+            <p className="text-lg font-semibold">Processing...</p>
+          </div>
+        </div>
+      )}
+
+      {submitError && (
+        <div className="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <p>{submitError}</p>
+        </div>
+      )}
+
       {/* <Navbar /> */}
       <form
         onSubmit={handleSubmit}

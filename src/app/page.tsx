@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FiUpload, FiBarChart2, FiEdit, FiCheckCircle } from "react-icons/fi";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -109,9 +110,11 @@ export default function Home() {
               >
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 rounded-full bg-gray-700 overflow-hidden mr-4">
-                    <img
+                    <Image
                       src={testimonial.avatar}
                       alt={testimonial.name}
+                      width={48}
+                      height={48}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -120,7 +123,9 @@ export default function Home() {
                     <p className="text-sm text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
-                <p className="text-gray-300 italic">"{testimonial.quote}"</p>
+                <p className="text-gray-300 italic">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
               </div>
             ))}
           </div>
@@ -140,7 +145,7 @@ export default function Home() {
             onClick={() => router.push("/resume-analyzer-form")}
             className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg text-lg transition-all"
           >
-            Get Started - It's Free
+            Get Started - It&apos;s Free
           </button>
         </div>
       </section>

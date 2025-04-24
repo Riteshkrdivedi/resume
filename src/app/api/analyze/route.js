@@ -4,9 +4,13 @@ import { calculateAtsAnalysis } from "../helpers/atsScorer";
 
 export async function POST(request) {
   try {
-    const { resume_text, job_description } = await request.json();
+    const body = await request.json();
+    console.log("Received analyze request with body:", body);
+
+    const { resume_text, job_description } = body;
 
     if (!resume_text || !job_description) {
+      console.log("Missing data:", { resume_text, job_description });
       return NextResponse.json(
         { error: "Missing resume text or job description" },
         { status: 400 }
