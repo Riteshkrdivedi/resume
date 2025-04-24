@@ -1,101 +1,149 @@
-import Image from "next/image";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { FiUpload, FiBarChart2, FiEdit, FiCheckCircle } from "react-icons/fi";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-100">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20"></div>
+        <div className="container mx-auto px-6 py-24 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              <span className="text-orange-400">Optimize</span> Your Resume for{" "}
+              <br />
+              <span className="text-blue-300">ATS</span> Success
+            </h1>
+            <p className="text-xl text-gray-300 mb-10">
+              Get past automated screening systems and land more interviews with
+              our human-reviewed resume analysis.
+            </p>
+            <button
+              onClick={() => router.push("/resume-analyzer-form")}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105"
+            >
+              Analyze Your Resume Now
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      <section className="py-20 bg-gray-800">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-16">
+            How It <span className="text-blue-300">Works</span>
+          </h2>
+
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <FiUpload className="w-8 h-8" />,
+                title: "Upload Your Resume",
+                desc: "PDF or Word format",
+              },
+              {
+                icon: <FiBarChart2 className="w-8 h-8" />,
+                title: "Instant Analysis",
+                desc: "We scan for ATS compatibility",
+              },
+              {
+                icon: <FiEdit className="w-8 h-8" />,
+                title: "Get Actionable Feedback",
+                desc: "See what's working and what's not",
+              },
+              {
+                icon: <FiCheckCircle className="w-8 h-8" />,
+                title: "Improve & Succeed",
+                desc: "Make changes and land interviews",
+              },
+            ].map((step, index) => (
+              <div
+                key={index}
+                className="bg-gray-700/50 p-6 rounded-xl border border-gray-600 hover:border-orange-400 transition-all"
+              >
+                <div className="text-orange-400 mb-4">{step.icon}</div>
+                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                <p className="text-gray-400">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-900">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl font-bold text-center mb-16">
+            Real <span className="text-blue-300">Results</span>
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                name: "Sarah K.",
+                role: "Marketing Professional",
+                quote:
+                  "Went from 0 callbacks to 5 interviews in 2 weeks after using this tool.",
+                avatar: "/first.jpg",
+              },
+              {
+                name: "James L.",
+                role: "Software Engineer",
+                quote:
+                  "Identified missing keywords I never would have thought of. Highly recommend!",
+                avatar: "/second.jpg",
+              },
+              {
+                name: "Priya M.",
+                role: "Financial Analyst",
+                quote:
+                  "The suggestions helped me tailor my resume perfectly for each application.",
+                avatar: "/third.jpg",
+              },
+            ].map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-orange-400 transition-all"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-gray-700 overflow-hidden mr-4">
+                    <img
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-400">{testimonial.role}</p>
+                  </div>
+                </div>
+                <p className="text-gray-300 italic">"{testimonial.quote}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gradient-to-r from-blue-900/50 to-purple-900/50">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-6">
+            Ready to Transform Your Resume?
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Stop getting rejected by bots before a human even sees your
+            application.
+          </p>
+          <button
+            onClick={() => router.push("/resume-analyzer-form")}
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg text-lg transition-all"
+          >
+            Get Started - It's Free
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
